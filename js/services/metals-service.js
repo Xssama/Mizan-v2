@@ -1,4 +1,4 @@
-import { request, API_URL } from "../api.js";
+import { request, API_URL } from "./api.js";
 
 async function GetPreviousDayData(metal, unit, fxRate) {
 
