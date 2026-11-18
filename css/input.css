@@ -34,3 +34,12 @@
 .silver-circle {
     color: #AFAFAF;
 }
+.available-product {
+    background-color: #b9f8cf;
+    color: rgb(17, 123, 17)
+}
+
+.sold-product {
+    background-color: rgba(255, 168, 168, 0.556);
+    color: rgb(92, 15, 15);
+}
