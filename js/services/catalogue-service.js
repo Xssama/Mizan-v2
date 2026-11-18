@@ -55,5 +55,4 @@ export function deleteProduct(id)
     }
     return request(`${JSON_SERVER_URL}/products/${id}`, options)
 }
-console.log(await getProducts());
 
