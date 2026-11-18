@@ -1,17 +1,67 @@
 const API_URL = "https://xaus.com/api/v1";
+const JSON_SERVER = "http://localhost:3001"
+// const products = await request(`${JSON_SERVER}/products`, {method: 'POST',
+//     headers : {
+//         "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify({
+//         "id": "",
+//       "title": "Bague en or 18 carats",
+//       "description": "Bague élégante en or jaune 18 carats",
+//       "price": 700,
+//       "category": "coin",
+//       "status": "sold",
+//       "createdAt": "2026-11-10"
+//     })
+// })
 
-async function requestJSON(url) {
-    const response = await fetch(url)
-    if (!response.ok)
+
+async function request(url, options = {}) {
+    const controller = new AbortController()
+    const timeout = setTimeout(function(){
+        controller.abort()
+    }, 8000)
+    try {
+        const response = await fetch(url,{ 
+            ...options,signal: controller.signal})
+        if (!response.ok)
+        {
+           const error = new Error('Something went wrong!')
+           error.type = "http"
+           error.status = response.status
+           throw  error
+        }
+
+        const reponseText = await response.text()
+        
+        if (reponseText === "") {
+            return null
+        }
+        const data_json = JSON.parse(reponseText)
+        
+        return data_json        
+    } catch (error) {
+        if (error.name == 'TypeError') {
+            error.type = 'network'
+            error.status = null
+        }
+        else if (error.name == 'SyntaxError') {
+            error.type = 'parse'
+            error.status = null
+        }
+        else if (error.name == 'AbortError') {
+            error.type = 'timeout'
+            error.status = null
+        }
+        throw error
+    } finally
     {
-        throw new Error(`HTTP Error! status: ${response.status}`)
+        clearTimeout(timeout)
     }
-    const data_json = await response.json()
-    return data_json
 }
 async function GetPreviousDayData(metal, unit, fxRate) {
 
-    const history_data = await requestJSON(`${API_URL}/chart?symbol=${metal}&range=5d`)
+    const history_data = await request(`${API_URL}/chart?symbol=${metal}&range=5d`)
     
     let previousprice = history_data.points[history_data.points.length - 2].c
     return (previousprice * fxRate) / 31.1035   
@@ -19,7 +69,7 @@ async function GetPreviousDayData(metal, unit, fxRate) {
 
 async function GetGoldData(currency) {
    
-    const gold_data = await requestJSON(`${API_URL}/spot?currency=${currency}&unit=gram`)
+    const gold_data = await request(`${API_URL}/spot?currency=${currency}&unit=gram`)
 
     const previousDayPrice = await GetPreviousDayData('xau', 'gram', gold_data.fx_rate)
     const change = gold_data.xau.price - previousDayPrice
@@ -33,7 +83,7 @@ async function GetGoldData(currency) {
 
 async function GetSilverData(currency) {
     
-    const silver_data = await requestJSON(`${API_URL}/spot?currency=${currency}&unit=gram`)
+    const silver_data = await request(`${API_URL}/spot?currency=${currency}&unit=gram`)
     const silverPrice = (silver_data.silver_usd_oz * silver_data.fx_rate)/31.1034768
 
     const previousDayPrice = await GetPreviousDayData('silver', 'gram', silver_data.fx_rate)
@@ -45,8 +95,8 @@ async function GetSilverData(currency) {
 }
 
 async function GetMetalHistory(symbol, range = '') {
-    const goldHistory = await requestJSON(`${API_URL}/chart?symbol=${symbol}&range=1mo&interval=1d`)
-    const spotData = await requestJSON(`${API_URL}/spot?currency=MAD&unit=gram`)
+    const goldHistory = await request(`${API_URL}/chart?symbol=${symbol}&range=1mo&interval=1d`)
+    const spotData = await request(`${API_URL}/spot?currency=MAD&unit=gram`)
     const fxrate = spotData.fx_rate
 
     const data = []
@@ -57,3 +107,11 @@ async function GetMetalHistory(symbol, range = '') {
     return (range == 7 ?  data.slice(-7): data)    
 }
 export {GetGoldData, GetSilverData, GetMetalHistory}
+
+
+
+
+
+//test the server-api endpoints
+
+
