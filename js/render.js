@@ -1,4 +1,4 @@
-import { GetGoldData, GetSilverData, GetMetalHistory } from "./api.js";
+import { GetGoldData, GetSilverData, GetMetalHistory } from "./services/metals-service.js";
 import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "./storage.js";
 import { renderLineChart, CalculateChartCoordinates } from "./charts.js";
 
@@ -25,7 +25,6 @@ export function loadCard(Card_Obj)
     const metalName = Card_Obj.name
     
     const isGold = (metalName).trim().toLowerCase() == 'gold'
-    console.log(isGold);
     card.querySelector('#metal-name').textContent = Card_Obj.name
     
     card.querySelector('#metal-color').classList.add(isGold ? 'gold-circle' : 'silver-circle')
