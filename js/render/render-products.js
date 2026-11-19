@@ -16,6 +16,7 @@ export function createProductsCard(product)
     }
     else
     {
+        
         product__status_el.classList.add('sold-product')
         product__status_el.classList.remove('available-product')
     }
