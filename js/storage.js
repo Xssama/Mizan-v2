@@ -78,3 +78,11 @@ export function saveData(data=state)
         error: error.message}
     }
 }
+//products
+export function updateProductsInState(products)
+{
+    state.products = []
+    products.forEach(function(product){
+        state.products.push(product)
+    })
+}
