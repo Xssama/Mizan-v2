@@ -1,5 +1,6 @@
 const product_template = document.getElementById('product-template')
 const products_list = document.getElementById('products-liste')
+
 export function createProductsCard(product)
 {
     const productCard = product_template.content.cloneNode(true)
