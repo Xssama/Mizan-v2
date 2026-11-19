@@ -31,6 +31,27 @@
             <div>
                 <ul id="products-liste" class="py-4 flex flex-col gap-3 "></ul>
             </div>
+            <!-- empty search -->
+            <div id="empty-search" class="flex flex-col items-center gap-2 hidden">
+                <img src="./images/empty-search-icon.png" alt="aucune result icon" class="w-1/5">
+                <p class="text-2xl font-semibold text-text">Aucun résultat trouvé</p>
+                <p class="w-8/12 text-center text-muted">Aucun produit ne correspond à votre recherche ou aux filtres sélectionnés.</p>
+                <button id="reset-filtres" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white">Réinitialiser les filtres</button>
+            </div>
+            <!-- Network failed -->
+            <div id="empty-search" class="flex flex-col items-center gap-2 hidden">
+                <img src="./images/network-failed-icon.png" alt="connexion impossible icon" class="w-1/5">
+                <p class="text-2xl font-semibold text-text">Impossible de charger les produits</p>
+                <p class="w-8/12 text-center text-muted">Une erreur est survenue lors de la récupération du catalogue. Vérifiez votre connexion et réessayez.</p>
+                <button id="reset-filtres" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white"><i class="fa-solid fa-arrows-rotate"></i>  Réessayer</button>
+                <p class="text-center text-sm text-muted">Erreur : connexion impossible</p>
+            </div>
+            <!-- loading products -->
+            <div id="empty-search" class="flex flex-col items-center gap-4 hidden">
+                <img src="./images/loading-icon.png" alt="connexion impossible icon" class="w-1/5">
+                <p class="text-2xl font-semibold text-text">Chargement des produits...</p>
+                <p class="text-center text-sm text-muted">Veuillez patienter.</p>
+            </div>
         </section>
     </main>
     <template id="product-template">
