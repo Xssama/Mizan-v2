@@ -1,0 +1,50 @@
+{
+  "products": [
+  {
+    "id": "1",
+    "title": "Bague en or 18 carats",
+    "description": "Bague élégante en or jaune 18 carats",
+    "price": 2000,
+    "category": "bijoux",
+    "status": "disponible",
+    "createdAt": "2026-11-10"
+  },
+  {
+    "id": "2",
+    "title": "Collier en argent",
+    "description": "Collier artisanal en argent 925",
+    "price": 850,
+    "category": "bijoux",
+    "status": "disponible",
+    "createdAt": "2026-11-11"
+  },
+  {
+    "id": "3",
+    "title": "Lingot d'or 10g",
+    "description": "Lingot d'or pur de 24 carats",
+    "price": 14500,
+    "category": "lingot",
+    "status": "réservé",
+    "createdAt": "2026-11-12"
+  },
+  {
+    "id": "4",
+    "title": "Pièce en argent",
+    "description": "Pièce de collection en argent",
+    "price": 500,
+    "category": "pièce",
+    "status": "disponible",
+    "createdAt": "2026-11-13"
+  },
+  {
+    "id": "5",
+    "title": "Bracelet en or",
+    "description": "Bracelet en or jaune 18 carats",
+    "price": 4200,
+    "category": "bijoux",
+    "status": "vendu",
+    "createdAt": "2026-11-14"
+  }
+],
+  "$schema": "./node_modules/json-server/schema.json"
+}
