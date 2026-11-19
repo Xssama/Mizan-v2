@@ -26,7 +26,7 @@
         <section class="px-3 my-2 border border-gray-200 rounded-xl py-3 mx-1">
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold">Produits</h2>
-                <button id="add-product" class="text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">Ajouter produit</button>
+                <button class="add-product text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">Ajouter produit</button>
             </div>
             <div>
                 <ul id="products-liste" class="py-4 flex flex-col gap-3 "></ul>
@@ -39,23 +39,38 @@
                 <button id="reset-filtres" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white">Réinitialiser les filtres</button>
             </div>
             <!-- Network failed -->
-            <div id="empty-search" class="flex flex-col items-center gap-2 hidden">
+            <div id="network-failed" class="flex flex-col items-center gap-2 hidden">
                 <img src="./images/network-failed-icon.png" alt="connexion impossible icon" class="w-1/5">
                 <p class="text-2xl font-semibold text-text">Impossible de charger les produits</p>
                 <p class="w-8/12 text-center text-muted">Une erreur est survenue lors de la récupération du catalogue. Vérifiez votre connexion et réessayez.</p>
-                <button id="reset-filtres" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white"><i class="fa-solid fa-arrows-rotate"></i>  Réessayer</button>
+                <button id="retry-network-error" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white"><i class="fa-solid fa-arrows-rotate"></i>  Réessayer</button>
                 <p class="text-center text-sm text-muted">Erreur : connexion impossible</p>
             </div>
             <!-- loading products -->
-            <div id="empty-search" class="flex flex-col items-center gap-4 hidden">
+            <div id="loading-state" class="flex flex-col items-center gap-4 hidden">
                 <img src="./images/loading-icon.png" alt="connexion impossible icon" class="w-1/5">
                 <p class="text-2xl font-semibold text-text">Chargement des produits...</p>
                 <p class="text-center text-sm text-muted">Veuillez patienter.</p>
+            </div>
+            <!-- Catalogue empty -->
+            <div id="catalogue-empty" class="flex flex-col items-center gap-2 hidden">
+                <img src="./images/empty-catalogue-icon.png" alt="catalogue vide icon" class="w-1/5">
+                <p class="text-2xl font-semibold text-text">Votre catalogue est vide</p>
+                <p class="w-8/12 text-center text-muted">Vous n'avez pas encore ajouté de produits. Commencez par créer votre premier article.</p>
+                <button class="add-product text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white"><i class="fa-solid fa-plus"></i> Ajouter un produit</button>
+            </div>
+            <!-- other cases -->
+            <div id="other-errors" class="flex flex-col items-center gap-2 hidden">
+                <img src="./images/error-icon.png" alt="catalogue vide icon" class="w-1/5">
+                <p class="text-2xl font-semibold text-text">Une erreur est survenue</p>
+                <p class="w-8/12 text-center text-muted">Impossible de charger les produits. Veuillez réessayer.</p>
+                <button id="retry-other-errors" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white">Reessayer</button>
             </div>
         </section>
     </main>
     <template id="product-template">
         <article class="flex justify-between border border-gray-300 rounded-2xl shadow-lg py-2 px-2 hover:translate-y-1 hover:duration-400">
+            <input type="text" name="id" class="product-id hidden">
             <div class="flex gap-2 items-center">
                 <div class="w-1/6 md:w-1/12 lg:w-1/12">
                     <img src="./images/products-images-placeholder.jpg" alt="product is image place holder" class="">
@@ -70,12 +85,11 @@
             <div class="flex flex-col items-center gap-3">
                 <p class="product-status sold-product border-0 rounded-2xl px-2"></p>
                 <div class="flex gap-3">
-                    <button data-action="favorite-product"><i class="fa-regular fa-bookmark"></i></button>
+                    <button data-action="favorite-product" ><i class="fa-regular fa-bookmark"></i></button>
                     <button data-action="edit-product"><i class="fa-regular fa-pen-to-square"></i></button>
                     <button data-action="delete-product"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
             </div>
-            
         </article>
     </template>
 </body>

@@ -5,6 +5,7 @@ export function createProductsCard(product)
 {
     const productCard = product_template.content.cloneNode(true)
     const product__status_el = productCard.querySelector('.product-status')
+    productCard.querySelector('.product-id').value = product.id
     productCard.querySelector('.product-title').textContent = product.title
     productCard.querySelector('.product-description').textContent = product.description
     productCard.querySelector('.product-price').textContent = product.price
