@@ -29,7 +29,7 @@
                 <button id="add-product" class="text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">Ajouter produit</button>
             </div>
             <div>
-                <ul id="products-liste" class="py-2">                </ul>
+                <ul id="products-liste" class="py-4 flex flex-col gap-3 "></ul>
             </div>
         </section>
     </main>
@@ -49,9 +49,9 @@
             <div class="flex flex-col items-center gap-3">
                 <p id="product-status" class="sold-product border-0 rounded-2xl px-2"></p>
                 <div class="flex gap-3">
-                    <button id="product-favorite"><i class="fa-regular fa-bookmark"></i></button>
-                    <button id="edit-product"><i class="fa-regular fa-pen-to-square"></i></button>
-                    <button id="delete-product"><i class="fa-regular fa-trash-can"></i></button>
+                    <button id="product-favorite" data-action="favorite-product"><i class="fa-regular fa-bookmark"></i></button>
+                    <button id="edit-product" data-action="edit-product"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button id="delete-product" data-action="delete-product"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
             </div>
             
