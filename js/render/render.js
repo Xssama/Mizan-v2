@@ -1,9 +1,8 @@
-import { GetGoldData, GetSilverData, GetMetalHistory } from "./services/metals-service.js";
-import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "./storage.js";
-import { renderLineChart, CalculateChartCoordinates } from "./charts.js";
+import { GetGoldData, GetSilverData, GetMetalHistory } from "../services/metals-service.js";
+import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
+import { renderLineChart, CalculateChartCoordinates } from "../charts.js";
+import { loadCard, renderLastUpdatelabel } from "./render-metals.js";
 
-const LastUpdate_P = document.getElementById('last-update-time')
-const template = document.getElementById('metals-template')
 const cards_containers = document.getElementById('metals-container')
 
 const cards_status_P = document.getElementById('cards-status')
@@ -19,36 +18,7 @@ async function renderPage() {
     await loadMetalCrads(mizan_currency)
     LoadHistory()
 }
-export function loadCard(Card_Obj)
-{
-    const card = template.content.cloneNode(true)
-    const metalName = Card_Obj.name
-    
-    const isGold = (metalName).trim().toLowerCase() == 'gold'
-    card.querySelector('#metal-name').textContent = Card_Obj.name
-    
-    card.querySelector('#metal-color').classList.add(isGold ? 'gold-circle' : 'silver-circle')
-    card.querySelector('#metal-price').textContent = Card_Obj.price
-    card.querySelector('#metal-currency').textContent = Card_Obj.currency
-    card.querySelector('#metal-unit').textContent = Card_Obj.unit
-    card.querySelector('#metal-change').textContent = Card_Obj.change + ` ${Card_Obj.currency}`
-    card.querySelector('#metal-change-rate').textContent = Card_Obj.changerate + ' %'
 
-    if (Card_Obj.changerate < 0) {
-        card.querySelector('#metal-change-rate').classList.add('text-red-500')
-        card.querySelector('.arrow-down').classList.remove('hidden')
-        card.querySelector('.arrow-up').classList.add('hidden')
-    }
-    else if (Card_Obj.changerate >= 0) {
-        card.querySelector('#metal-change-rate').classList.add('text-green-500')
-        card.querySelector('.arrow-up').classList.remove('hidden')
-        card.querySelector('.arrow-down').classList.add('hidden')
-   
-    }
-
-    cards_containers.appendChild(card)
-
-}
 async function loadMetalCrads(currency)
 {
     cards_containers.replaceChildren()
@@ -67,31 +37,23 @@ async function loadMetalCrads(currency)
         UpdateGoldPrice(GoldData.price)
         UpdateSilverPrice(SilverData.price)
         UpdateSelectedCurrency(currency)
-        loadCard(GoldData)
-        loadCard(SilverData)
-        
+        const goldCard = loadCard(GoldData)
+        cards_containers.appendChild(goldCard)
+        const SilverCard = loadCard(SilverData)
+        cards_containers.appendChild(SilverCard)
         refresh_textcontent.textContent = "Actualiser"
 
     }
 
     catch (error)
     {
+        console.log(error);
+        
         cards_status_P.textContent = error.message
         cards_status_P.className = "error"
         refresh_textcontent.textContent = "Reessayer"
     }
     refresh_cards.disabled = false
-}
-
-
-
-
-function renderLastUpdatelabel(date)
-{
-    if (Number.isNaN(date.getTime())) {
-        return;
-    }
-    LastUpdate_P.textContent = date.toLocaleString()
 }
 
 
@@ -123,3 +85,50 @@ async function LoadHistory(symbol='xau', range='') {
 
 
 export {loadMetalCrads, LoadHistory , renderPage }
+
+
+//products
+import { LoadProductsCards } from "./render-products.js";
+import { getProducts } from "../services/catalogue-service.js";
+const products_liste = document.getElementById('products-liste')
+const loading_state = document.getElementById('loading-state')
+const network_failed = document.getElementById('network-failed')
+const empty_search = document.getElementById('empty-search')
+const catalogue_empty = document.getElementById('catalogue-empty')
+const other_errors = document.getElementById('other-errors')
+function hideAllMessages()
+{
+    loading_state.classList.add('hidden')
+    network_failed.classList.add('hidden')
+    empty_search.classList.add('hidden')
+    catalogue_empty.classList.add('hidden')
+    other_errors.classList.add('hidden')
+
+} 
+export async function LoadProducts()
+{
+    hideAllMessages()
+    loading_state.classList.remove('hidden')
+    try {
+        const products = await getProducts()
+        if (products.length == 0) {
+            loading_state.classList.add('hidden')
+            catalogue_empty.classList.remove('hidden')
+            return
+        }
+        loading_state.classList.add('hidden')
+        LoadProductsCards(products)
+        
+    } catch (error) {
+        if (error.type == 'network')
+        {
+            loading_state.classList.add('hidden')
+            network_failed.classList.remove('hidden')
+        }
+        else {
+            loading_state.classList.add('hidden')
+            other_errors.classList.remove('hidden')
+        }
+    }
+
+}

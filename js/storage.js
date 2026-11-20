@@ -78,3 +78,33 @@ export function saveData(data=state)
         error: error.message}
     }
 }
+//products
+export function LoadProductsToState(products)
+{
+    state.products = []
+    products.forEach(function(product){
+        state.products.push(product)
+    })
+}
+
+export function addProductToState(obj)
+{
+    console.log('before: ', state.products);
+    
+    state.products.push()
+    console.log('after: ', state.products);
+
+}
+export function updateProductInState(product_obj, product_id)
+{
+    state.products.forEach(function(product){
+      if (product.id === product_id) {
+        product.title = product_obj.title
+        product.description = product_obj.description
+        product.price = product_obj.price
+        product.category = product_obj.category
+        product.status = product_obj.status
+      }  
+    })
+}
+
