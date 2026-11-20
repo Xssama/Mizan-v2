@@ -10,7 +10,8 @@ export function getProductById(id) {
     return request(`${JSON_SERVER_URL}/products/${id}`)
 }
 
-export function addProduct(product_obj) {
+export function addProductToStorage(product_obj) {
+    
     const options = {
         method: 'POST',
         headers: {
@@ -35,7 +36,7 @@ export function replaceProduct(product_obj, id)
     return  request(`${JSON_SERVER_URL}/products/${id}`, options)
 }
 
-export function updateProduct(data_to_update_obj, id)
+export function updateProductInStorage(data_to_update_obj, id)
 {
     const options = 
     {
@@ -48,7 +49,7 @@ export function updateProduct(data_to_update_obj, id)
     return request(`${JSON_SERVER_URL}/products/${id}`, options)
 }
 
-export function deleteProduct(id)
+export function deleteProductFromStorage(id)
 {
     const options = {
         method: 'DELETE'

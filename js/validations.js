@@ -1,8 +1,8 @@
  
-export function isTitleValid(name, minLength=2, maxLength=40)
+export function isTitleValid(name, minLength=3, maxLength=80)
 {
     const regex = /[^\p{L}\p{M} '-’]/u;
-    const cp_nom= name.trim()
+    const cp_nom= name.trim().replaceAll(/ +/g, ' ')
     if (regex.test(cp_nom) || cp_nom.length > maxLength || cp_nom.length < minLength) {
         return false
     }
@@ -16,7 +16,6 @@ export function isDescriptionValid(description, minLength=10,)
 {
     const regex = /[^\p{L}\p{M}0-9 '-’]/u;
     const cp_desc= description.trim().replaceAll(/ +/g, ' ')
-    console.log(cp_desc);
     
     if (regex.test(cp_desc) || cp_desc.length < minLength) {
         return false
