@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
-    <script type="module" src="./js/app.js"></script>
+    <script type="module" src="./js/catalogue.js"></script>
     <title>Mizan Catalogue</title>
 </head>
 <body>
@@ -26,7 +26,9 @@
         <section class="px-3 my-2 border border-gray-200 rounded-xl py-3 mx-1">
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold">Produits</h2>
-                <button class="add-product text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">Ajouter produit</button>
+                <button class="add-product text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">
+                    Ajouter produit
+                </button>
             </div>
             <div>
                 <ul id="products-liste" class="py-4 flex flex-col gap-3 "></ul>
@@ -92,5 +94,132 @@
             </div>
         </article>
     </template>
-</body>
-</html>
+    <dialog
+        id="add-product-dialog"
+        class="w-[calc(100%-2rem)] m-auto max-w-lg rounded-xl p-0 shadow-xl backdrop:bg-black/50"
+    >
+        <form id="product-form" class="space-y-4 p-6">
+            <div class="flex items-center justify-between">
+                <h2 id="product-dialog-title" class="text-xl font-semibold text-gray-800">
+                    Ajouter un produit
+                </h2>
+
+                <button
+                    type="button"
+                    id="close-product-dialog"
+                    class="text-2xl text-gray-400 hover:text-gray-700"
+                    aria-label="Fermer"
+                >
+                    &times;
+                </button>
+            </div>
+            <div>
+                <label for="product-title" class="mb-1 block text-sm font-medium text-gray-700">
+                    Nom du produit
+                </label>
+                <input
+                    type="text"
+                    id="product-title"
+                    name="title"
+                    required
+                    minlength="3"
+                    maxlength="80"
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-amber-500"
+                >
+                <p
+                    id="product-title-error"
+                    class="hidden rounded-lg bg-red-50 mt-2 px-3 py-2 text-sm text-red-600"
+                ></p>
+            </div>
+            <div>
+                <label for="product-description" class="mb-1 block text-sm font-medium text-gray-700">
+                    Description
+                </label>
+                <textarea
+                    id="product-description"
+                    name="description"
+                    rows="3"
+                    required
+                    minlength="10"
+                    class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-amber-500"
+                ></textarea>
+                <p
+                    id="product-description-error"
+                    class="hidden rounded-lg bg-red-50 mt-2 px-3 py-2 text-sm text-red-600"
+                ></p>
+            </div>
+            <div>
+                <label for="product-price" class="mb-1 block text-sm font-medium text-gray-700">
+                    Prix (MAD)
+                </label>
+                <input
+                    type="number"
+                    id="product-price"
+                    name="price"
+                    min="0"
+                    required
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-amber-500"
+                >
+                <p
+                    id="product-price-error"
+                    class="hidden rounded-lg bg-red-50 mt-2 px-3 py-2 text-sm text-red-600"
+                ></p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label for="product-category" class="mb-1 block text-sm font-medium text-gray-700">
+                        Catégorie
+                    </label>
+                    <select
+                        id="product-category"
+                        name="category"
+                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2"
+                    >
+                        <option value="bijoux">Bijoux</option>
+                        <option value="lingot">Lingot</option>
+                        <option value="pièce">Pièce</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="product-status" class="mb-1 block text-sm font-medium text-gray-700">
+                        Statut
+                    </label>
+                    <select
+                        id="product-status"
+                        name="status"
+                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2"
+                    >
+                        <option value="disponible">Disponible</option>
+                        <option value="réservé">Réservé</option>
+                        <option value="vendu">Vendu</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 border-t border-gray-100 pt-4">
+                <button
+                    type="button"
+                    id="cancel-product-dialog"
+                    class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    id="save-product-btn"
+                    class="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+                >
+                    Ajouter
+                </button>
+            </div>
+            <p
+                    id="add-product-error"
+                    class="hidden rounded-lg bg-red-50 mt-2 px-3 py-2 text-sm text-red-600"
+            ></p>
+
+        </form>
+    </dialog>
+    </body>
+    </html>
