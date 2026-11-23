@@ -79,6 +79,15 @@ export function saveData(data=state)
     }
 }
 //products
+export function getProductByIdFromState(productID)
+{
+    const product = state.products.filter((el) => {
+       return el.id === productID
+        
+    })
+    return product[0]
+}
+
 export function LoadProductsToState(products)
 {
     state.products = []
@@ -88,12 +97,8 @@ export function LoadProductsToState(products)
 }
 
 export function addProductToState(obj)
-{
-    console.log('before: ', state.products);
-    
-    state.products.push()
-    console.log('after: ', state.products);
-
+{   
+    state.products.push(obj)
 }
 export function updateProductInState(product_obj, product_id)
 {

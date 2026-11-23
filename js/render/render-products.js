@@ -1,11 +1,13 @@
 import {isTitleValid, isDescriptionValid, isPriceValid} from '../validations.js'
-import { addProductToStorage, updateProductInStorage } from '../services/catalogue-service.js'
-import { updateProductInState, addProductToState } from '../storage.js'
+import { addProductToStorage,getProductById, updateProductInStorage } from '../services/catalogue-service.js'
+import { updateProductInState, addProductToState, getProductByIdFromState } from '../storage.js'
 import { state } from '../state.js'
 
 const product_template = document.getElementById('product-template')
 
 const products_list = document.getElementById('products-liste')
+
+const product_form = document.getElementById('product-form')
 
 const product_price_error = document.getElementById('product-price-error')
 const product_title_error = document.getElementById('product-title-error')
@@ -17,12 +19,13 @@ const product_description = document.getElementById('product-description')
 const product_price = document.getElementById('product-price')
 const product_category = document.getElementById('product-category')
 const product_status = document.getElementById('product-status')
+const update_product_id = document.getElementById('update-product-id')
 
 export function createProductsCard(product)
 {
     const productCard = product_template.content.cloneNode(true)
+    productCard.querySelector('article').setAttribute('data-product-id', product.id)
     const product__status_el = productCard.querySelector('.product-status')
-    productCard.querySelector('.product-id').value = product.id
     productCard.querySelector('.product-title').textContent = product.title
     productCard.querySelector('.product-description').textContent = product.description
     productCard.querySelector('.product-price').textContent = product.price
@@ -49,13 +52,31 @@ export function LoadProductsCards(products = state.products)
         products_list.appendChild(product_card)
     })
 }
-export function initDialg()
+export function initDialg(productID = -1)
 {
-    product_title.value = ''
-    product_description.value = ''
-    product_price.value = '0'
-    product_category.value = 'bijoux'
-    product_status.value = 'disponible'
+    Array.from(product_form.elements).forEach(function(element) {
+        element.removeAttribute('disabled')
+    })
+    product_form.querySelector('#cancel-product-dialog').textContent = 'Cancel'
+    if (productID == -1) {
+        update_product_id.value = ''
+        product_title.value = ''
+        product_description.value = ''
+        product_price.value = '0'
+        product_category.value = 'bijoux'
+        product_status.value = 'disponible'
+    }
+    else
+    {
+        const product_obj = getProductByIdFromState(productID)
+        
+        update_product_id.value = product_obj.id
+        product_title.value = product_obj.title
+        product_description.value = product_obj.description
+        product_price.value = product_obj.price
+        product_category.value = product_obj.category
+        product_status.value = product_obj.status
+    }
 
     product_title_error.classList.add('hidden')
     product_title_error.textContent = ''
@@ -125,7 +146,7 @@ function validateProduct()
         const product = {
             title: product_title.value,
             description: product_description.value,
-            price: 14500,
+            price: product_price.value,
             category: product_category.value,
             status: product_status.value,
             createdAt: new Date().toISOString
@@ -134,16 +155,22 @@ function validateProduct()
     }
     return null
 }
-export async function addProduct()
-{
+export async function addProduct(update=false)
+{   
     const product = validateProduct()
     if (product == null) {
         return false
     }
     try {
-        const response = await addProductToStorage(product)
-        
-        addProductToState(product)
+        if (update) {
+            await updateProductInStorage(product, update_product_id.value)
+            updateProductInState(product, update_product_id.value)
+        }
+        else
+        {
+            const response = await addProductToStorage(product)
+            addProductToState(response)
+        }
         return true
     } catch (error) {
         if (error.type == "network") {
@@ -156,6 +183,10 @@ export async function addProduct()
         }
         return false
     }
+}
+
+export async function updateProduct() {
+    
 }
 
 product_title.addEventListener('focusout', validateTitle)

@@ -1,5 +1,5 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "../services/metals-service.js";
-import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
+import {LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
 import { renderLineChart, CalculateChartCoordinates } from "../charts.js";
 import { loadCard, renderLastUpdatelabel } from "./render-metals.js";
 
@@ -90,7 +90,7 @@ export {loadMetalCrads, LoadHistory , renderPage }
 //products
 import { LoadProductsCards } from "./render-products.js";
 import { getProducts } from "../services/catalogue-service.js";
-const products_liste = document.getElementById('products-liste')
+import { state } from "../state.js";
 const loading_state = document.getElementById('loading-state')
 const network_failed = document.getElementById('network-failed')
 const empty_search = document.getElementById('empty-search')
@@ -105,7 +105,11 @@ function hideAllMessages()
     other_errors.classList.add('hidden')
 
 } 
-export async function LoadProducts()
+export function LoadProducts(products = state.products)
+{   
+    LoadProductsCards(products)
+}
+export async function renderProductsPage()
 {
     hideAllMessages()
     loading_state.classList.remove('hidden')
@@ -117,8 +121,8 @@ export async function LoadProducts()
             return
         }
         loading_state.classList.add('hidden')
-        LoadProductsCards(products)
-        
+        LoadProducts(products)
+        LoadProductsToState(products)
     } catch (error) {
         if (error.type == 'network')
         {
