@@ -72,7 +72,6 @@
     </main>
     <template id="product-template">
         <article class="flex justify-between border border-gray-300 rounded-2xl shadow-lg py-2 px-2 hover:translate-y-1 hover:duration-400">
-            <input type="text" name="id" class="product-id hidden">
             <div class="flex gap-2 items-center">
                 <div class="w-1/6 md:w-1/12 lg:w-1/12">
                     <img src="./images/products-images-placeholder.jpg" alt="product is image place holder" class="">
@@ -80,7 +79,10 @@
                 <div>
                     <h3 class="product-title font-semibold text-lg"></h3>
                     <p class="product-description"></p>
-                    <p  class="product-price text-muted"></p>
+                    <p  class="text-muted">
+                        <span class="product-price">
+                        </span> MAD<span></span>
+                    </p>
                     <p class="product-category text-gray-800">Category - <span class="product-category-name font-semibold"></span></p>
                 </div>
             </div>
@@ -99,6 +101,7 @@
         class="w-[calc(100%-2rem)] m-auto max-w-lg rounded-xl p-0 shadow-xl backdrop:bg-black/50"
     >
         <form id="product-form" class="space-y-4 p-6">
+            <input type="text" name="id" id="update-product-id" class="hidden">
             <div class="flex items-center justify-between">
                 <h2 id="product-dialog-title" class="text-xl font-semibold text-gray-800">
                     Ajouter un produit
