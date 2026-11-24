@@ -16,3 +16,11 @@ export function sortByTitle(products, order='asc')
     )
     return sortedproducts
 }
+
+export function sortByPrice(products, order='asc')
+{
+    const sortedProducts = products.sort((productA, productB) => 
+        order === 'asc' ? productA.price - productB.price : productB.price - productA.price
+    )
+    return sortedProducts
+}
