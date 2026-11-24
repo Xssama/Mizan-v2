@@ -10,6 +10,21 @@ export function filterByTitle(products ,input_str)
     return filtredProducts
 }
 
+export function filterByStatus(products, status)
+{
+    const filtredProducts = products.filter(product => 
+        product.status == status
+    )
+    return filtredProducts
+}
+export function filterByCategory(products, category)
+{
+    const filtredProducts = products.filter(product => 
+        product.category == category
+    )
+    return filtredProducts
+}
+
 
 
 
