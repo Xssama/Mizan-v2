@@ -26,9 +26,40 @@
         <section class="px-3 my-2 border border-gray-200 rounded-xl py-3 mx-1">
             <div class="flex justify-between">
                 <h2 class="text-xl font-semibold">Produits</h2>
-                <button class="add-product text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 text-black/80">
+                <button class="add-product text-lg font-semibold border-2 border-violet-300 px-3 rounded-2xl bg-violet-100 hover:bg-violet-300 text-indigo-600">
+                    <i class="fa-solid fa-plus"></i>
                     Ajouter produit
                 </button>
+            </div>
+            <div id="products-filters" class="grid grid-cols-2 gap-x-8 border border-gray-300 my-2 py-3 px-4 rounded-lg">
+                <input type="text" name="title-search" id="search-by-title" placeholder="Rechercher un produit par nom..." class="col-span-2 focus:outline-0 py-2 px-2 caret-indigo-600 text-black/70">
+                <div class="flex flex-col">
+                    <label for="filter-by-status" class="text-muted text-lg">Statu</label>
+                    <select name="status" id="filter-by-status" class="border p-2 rounded-xl border-gray-400 [&>option]:font-semibold [&>option]:text-gray-800  font-semibold text-gray-800">
+                        <option value="all-status">Tous les statuts</option>
+                        <option value="available">Disponible</option>
+                        <option value="reserved">Réservé</option>
+                        <option value="sold">Vendu</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sort-products" class="text-muted text-lg">Trier par</label>
+                    <select name="sort" id="sort-products" class="border p-2 rounded-xl border-gray-400 [&>option]:font-semibold [&>option]:text-gray-800  font-semibold text-gray-800">
+                        <option value="none">Aucun</option>
+                        <option value="date-desc">Plus récents</option>
+                        <option value="date-asc">Plus anciens</option>
+                        <option value="titre-desc">Nom (A-Z)</option>
+                        <option value="titre-asc">Nom (Z-A)</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                    </select>
+                </div>
+                <hr class="col-span-2 my-8 text-gray-400">
+                <label class="text-muted text-sm">
+                    <input type="checkbox" id="filter-favorite">
+                    Afficher les favoris uniquement
+                </label>
+                <button class="reset-filtres justify-self-end font-semibold text-lg text-gray-700 hover:underline cursor-pointer w-2/6">Réinitialiser</button>
             </div>
             <div>
                 <ul id="products-liste" class="py-4 flex flex-col gap-3 "></ul>
@@ -38,7 +69,7 @@
                 <img src="./images/empty-search-icon.png" alt="aucune result icon" class="w-1/5">
                 <p class="text-2xl font-semibold text-text">Aucun résultat trouvé</p>
                 <p class="w-8/12 text-center text-muted">Aucun produit ne correspond à votre recherche ou aux filtres sélectionnés.</p>
-                <button id="reset-filtres" class="text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white">Réinitialiser les filtres</button>
+                <button class="reset-filtres text-xl border px-4 py-2 font-semibold rounded-lg border-gray-200 hover:bg-gray-400 focus:bg-black/80 focus:text-white">Réinitialiser les filtres</button>
             </div>
             <!-- Network failed -->
             <div id="network-failed" class="flex flex-col items-center gap-2 hidden">
