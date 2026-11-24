@@ -1,5 +1,8 @@
 import { addProduct, initDialg } from "./render/render-products.js";
 import { renderProductsPage, LoadProducts } from "./render/render.js";
+import { state } from "./state.js";
+
+
 const add_product_dialog = document.getElementById('add-product-dialog')
 const product_form = document.getElementById('product-form')
 const cancel_product_dialog = document.getElementById('cancel-product-dialog')
@@ -60,3 +63,92 @@ function handleProductsListeEvents(event)
 }
 
 products_liste.addEventListener('click', handleProductsListeEvents)
+//filters
+import { getFilters, setFilters } from "./storage.js";
+const search_by_title = document.getElementById('search-by-title')
+const filter_by_status = document.getElementById('filter-by-status')
+const filter_by_category = document.getElementById('filter-by-category')
+const sort_products = document.getElementById('sort-products')
+const empty_search = document.getElementById('empty-search')
+const reset_filters_btn = document.querySelectorAll('.reset-filtres')
+
+function loadFilters()
+{
+    getFilters()
+
+    search_by_title.value = state.filters.searchInput
+    filter_by_status.value = state.filters.filterByStatus_value
+    filter_by_category.value = state.filters.filterByCategory_value
+    sort_products.value = state.filters.sortBy
+
+}
+loadFilters()
+reset_filters_btn.forEach(function(btn){
+    btn.addEventListener('click', function(){
+        search_by_title.value = ''
+        search_by_title.dispatchEvent(new Event('input', {
+            bubbles: true
+        }))
+        filter_by_status.value = 'none'
+        filter_by_status.dispatchEvent(new Event('change', {
+            bubbles: true
+        }))
+        filter_by_category.value = 'none'
+        filter_by_category.dispatchEvent(new Event('change', {
+            bubbles: true
+        }))
+        sort_products.value = 'none'
+        sort_products.dispatchEvent(new Event('change', {
+            bubbles: true
+        }))
+
+
+    })
+})
+
+search_by_title.addEventListener('input', function(){
+    state.filters.searchInput = search_by_title.value.trim()
+    setFilters()
+    if (!LoadProducts()) {
+        empty_search.classList.remove('hidden')
+    }
+    else
+    {
+        empty_search.classList.add('hidden')
+    }
+})
+
+filter_by_category.addEventListener('change', function(){
+    state.filters.filterByCategory_value = filter_by_category.value.trim()
+    setFilters()
+    if (!LoadProducts()) {
+        empty_search.classList.remove('hidden')
+    }
+    else
+    {
+        empty_search.classList.add('hidden')
+    }
+})
+filter_by_status.addEventListener('change', function(){
+    state.filters.filterByStatus_value = filter_by_status.value.trim()
+    setFilters() 
+    if (!LoadProducts()) {
+        empty_search.classList.remove('hidden')
+    }
+    else
+    {
+        empty_search.classList.add('hidden')
+    }
+})
+sort_products.addEventListener('change', function(){
+    state.filters.sortBy = sort_products.value.trim()
+    setFilters()
+    if (!LoadProducts()) {
+        empty_search.classList.remove('hidden')
+    }
+    else
+    {
+        empty_search.classList.add('hidden')
+    }
+})
+

@@ -112,4 +112,28 @@ export function updateProductInState(product_obj, product_id)
       }  
     })
 }
+//filters
+const Filters_key = 'Products_filters'
+export function getFilters()
+{
+    const filters_obj = JSON.parse(localStorage.getItem(Filters_key)) || {
+        searchInput: '',
+        sortBy: 'none',
+        filterByStatus_value: 'none',
+        filterByCategory_value: 'none', 
+    }
+    updateFiltersInState(filters_obj)
+}
+export function setFilters()
+{
+    localStorage.setItem(Filters_key, JSON.stringify(state.filters))
+}
+export function updateFiltersInState(filters_obj)
+{
+    state.filters.searchInput = filters_obj.searchInput
+    state.filters.filterByStatus_value = filters_obj.filterByStatus_value
+    state.filters.filterByCategory_value = filters_obj.filterByCategory_value
+    state.filters.sortBy = filters_obj.sortBy
 
+
+}

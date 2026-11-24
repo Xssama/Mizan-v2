@@ -1,6 +1,7 @@
 export const state = 
 {
     products: [],
+    filters : {},
     isLoading: false,
     error: null,
     mizan_currency: '',

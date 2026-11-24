@@ -24,21 +24,3 @@ export function filterByCategory(products, category)
     )
     return filtredProducts
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
