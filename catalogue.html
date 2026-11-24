@@ -36,10 +36,19 @@
                 <div class="flex flex-col">
                     <label for="filter-by-status" class="text-muted text-lg">Statu</label>
                     <select name="status" id="filter-by-status" class="border p-2 rounded-xl border-gray-400 [&>option]:font-semibold [&>option]:text-gray-800  font-semibold text-gray-800">
-                        <option value="all-status">Tous les statuts</option>
-                        <option value="available">Disponible</option>
-                        <option value="reserved">Réservé</option>
-                        <option value="sold">Vendu</option>
+                        <option value="none">Tous les statuts</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="réservé">Réservé</option>
+                        <option value="vendu">Vendu</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="filter-by-category" class="text-muted text-lg">Catégories</label>
+                    <select name="category" id="filter-by-category" class="border p-2 rounded-xl border-gray-400 [&>option]:font-semibold [&>option]:text-gray-800  font-semibold text-gray-800">
+                        <option value="none">Tous les catégories</option>
+                        <option value="bijoux">Bijoux</option>
+                        <option value="lingot">Lingot</option>
+                        <option value="pièce">Pièce</option>
                     </select>
                 </div>
                 <div class="flex flex-col">
