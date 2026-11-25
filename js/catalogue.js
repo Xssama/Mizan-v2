@@ -1,9 +1,12 @@
-import { addProduct, initDialg } from "./render/render-products.js";
+import { addProduct, deleteProduct, initDialg } from "./render/render-products.js";
 import { renderProductsPage, LoadProducts } from "./render/render.js";
 import { state } from "./state.js";
-import { getFilters, setFilters, isProductFavorite, changeProductFavoriteStatus } from "./storage.js";
+import { getFilters, setFilters, changeProductFavoriteStatus, deleteProductfromState } from "./storage.js";
 
-
+const retry_network_error_btn = document.getElementById('retry-network-error')
+retry_network_error_btn.addEventListener('click', renderProductsPage)
+const retry_other_errors = document.getElementById('retry-other-errors')
+retry_other_errors.addEventListener('click', renderProductsPage)
 const add_product_dialog = document.getElementById('add-product-dialog')
 const product_form = document.getElementById('product-form')
 const cancel_product_dialog = document.getElementById('cancel-product-dialog')
@@ -46,7 +49,7 @@ product_form.addEventListener('submit', async function(event) {
 const products_liste = document.getElementById('products-liste')
 
 
-function handleProductsListeEvents(event)
+async function handleProductsListeEvents(event)
 {
     const button = event.target.closest("[data-action='edit-product']") ||
         event.target.closest('[data-action="delete-product"]') ||
@@ -75,6 +78,10 @@ function handleProductsListeEvents(event)
             button.classList.remove('text-yellow-500')
         }
         
+    }
+    else if (button.getAttribute('data-action') == 'delete-product') {
+        await deleteProduct(selected_product_id)
+        LoadProducts()
     }
 }
 
@@ -111,6 +118,10 @@ reset_filters_btn.forEach(function(btn){
         }))
         filter_by_category.value = 'none'
         filter_by_category.dispatchEvent(new Event('change', {
+            bubbles: true
+        }))
+        filter_favorite.checked = false
+        filter_favorite.dispatchEvent(new Event('change', {
             bubbles: true
         }))
         sort_products.value = 'none'
