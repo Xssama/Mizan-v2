@@ -1,5 +1,5 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "../services/metals-service.js";
-import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
+import {getFavoritesProductsData, LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
 import { renderLineChart, CalculateChartCoordinates } from "../charts.js";
 import { loadCard, renderLastUpdatelabel } from "./render-metals.js";
 
@@ -90,7 +90,9 @@ export {loadMetalCrads, LoadHistory , renderPage }
 //products
 import { LoadProductsCards } from "./render-products.js";
 import { getProducts } from "../services/catalogue-service.js";
-const products_liste = document.getElementById('products-liste')
+import { state } from "../state.js";
+import { applyFilters } from "./render-filters.js";
+
 const loading_state = document.getElementById('loading-state')
 const network_failed = document.getElementById('network-failed')
 const empty_search = document.getElementById('empty-search')
@@ -103,23 +105,36 @@ function hideAllMessages()
     empty_search.classList.add('hidden')
     catalogue_empty.classList.add('hidden')
     other_errors.classList.add('hidden')
-
+    
 } 
-export async function LoadProducts()
-{
+export function LoadProducts(products = state.products, filters = state.filters)
+{   
     hideAllMessages()
+    const FiltredProducts = applyFilters(products, filters)
+    LoadProductsCards(FiltredProducts)
+    
+    return !(FiltredProducts.length == 0)
+}
+export async function renderProductsPage()
+{
     loading_state.classList.remove('hidden')
     try {
         const products = await getProducts()
+        getFavoritesProductsData()
         if (products.length == 0) {
             loading_state.classList.add('hidden')
             catalogue_empty.classList.remove('hidden')
             return
         }
         loading_state.classList.add('hidden')
-        LoadProductsCards(products)
+        LoadProductsToState(products)
         
+        if (!LoadProducts(products)) {
+            
+            empty_search.classList.remove('hidden')
+        }
     } catch (error) {
+        console.log(error);
         if (error.type == 'network')
         {
             loading_state.classList.add('hidden')

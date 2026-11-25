@@ -43,3 +43,8 @@
     background-color: rgba(255, 168, 168, 0.556);
     color: rgb(92, 15, 15);
 }
+
+:disabled {
+    color: rgb(205, 199, 199);
+    cursor: not-allowed;
+}

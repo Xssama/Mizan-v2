@@ -79,6 +79,15 @@ export function saveData(data=state)
     }
 }
 //products
+export function getProductByIdFromState(productID)
+{
+    const product = state.products.filter((el) => {
+       return el.id === productID
+        
+    })
+    return product[0]
+}
+
 export function LoadProductsToState(products)
 {
     state.products = []
@@ -88,11 +97,14 @@ export function LoadProductsToState(products)
 }
 
 export function addProductToState(obj)
+{   
+    state.products.push(obj)
+}
+export function deleteProductfromState(productID)
 {
-    console.log('before: ', state.products);
-    
-    state.products.push()
-    console.log('after: ', state.products);
+    state.products = state.products.filter((product) => 
+        product.id != productID
+    )
 
 }
 export function updateProductInState(product_obj, product_id)
@@ -107,4 +119,72 @@ export function updateProductInState(product_obj, product_id)
       }  
     })
 }
+//filters
+const Filters_key = 'Products_filters'
+export function getFilters()
+{
+    const filters_obj = JSON.parse(localStorage.getItem(Filters_key)) || {
+        searchInput: '',
+        sortBy: 'none',
+        filterByStatus_value: 'none',
+        filterByCategory_value: 'none',
+        filterByFavorites: false, 
+    }
+    updateFiltersInState(filters_obj)
+}
+export function setFilters()
+{
+    localStorage.setItem(Filters_key, JSON.stringify(state.filters))
+}
+export function updateFiltersInState(filters_obj)
+{
+    state.filters.searchInput = filters_obj.searchInput
+    state.filters.filterByStatus_value = filters_obj.filterByStatus_value
+    state.filters.filterByCategory_value = filters_obj.filterByCategory_value
+    state.filters.sortBy = filters_obj.sortBy
+    state.filters.filterByFavorites = filters_obj.filterByFavorites
 
+}
+
+//favorites
+
+const favorites_Key = 'mizan_favorites'
+
+export function getFavoritesProductsData()
+{
+    const data = JSON.parse(localStorage.getItem(favorites_Key)) || []
+    state.favoriteProducts_IDs = data
+
+    return data
+}
+
+export function setFavoritesProductsData()
+{
+    localStorage.setItem(favorites_Key, JSON.stringify(state.favoriteProducts_IDs))
+}
+export function isProductFavorite(productID)
+{
+    const isProductIdExists = state.favoriteProducts_IDs.some((id) =>
+        id == productID
+    )
+    return isProductIdExists
+}
+//the function add productID to favorites if it doesn't exists, and remove it if already exists
+export function changeProductFavoriteStatus(productID)
+{
+    const WhatHappend = {
+        action: 'add'
+    }
+    if (!isProductFavorite(productID)) {
+        state.favoriteProducts_IDs.push(productID)
+    }
+    else
+    {
+        state.favoriteProducts_IDs = state.favoriteProducts_IDs.filter((id) =>
+            id != productID
+        )
+        WhatHappend.action ='remove'
+    }
+    setFavoritesProductsData()
+    return WhatHappend
+}
