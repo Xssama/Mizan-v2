@@ -1,6 +1,6 @@
 import {isTitleValid, isDescriptionValid, isPriceValid} from '../validations.js'
-import { addProductToStorage,getProductById, updateProductInStorage } from '../services/catalogue-service.js'
-import { updateProductInState, addProductToState, getProductByIdFromState } from '../storage.js'
+import { addProductToStorage, updateProductInStorage } from '../services/catalogue-service.js'
+import { updateProductInState, addProductToState, getProductByIdFromState,isProductFavorite } from '../storage.js'
 import { state } from '../state.js'
 
 const product_template = document.getElementById('product-template')
@@ -41,6 +41,15 @@ export function createProductsCard(product)
         product__status_el.classList.add('sold-product')
         product__status_el.classList.remove('available-product')
     }
+
+    if (isProductFavorite(product.id)) {
+        const fav_button = productCard.querySelector('[data-action="favorite-product"]')
+        const icon = fav_button.querySelector('i')
+        
+            icon.classList.add('fa-solid')
+            icon.classList.remove('fa-regular')
+            fav_button.classList.add('text-yellow-500')
+        }
     return productCard
 }
 
