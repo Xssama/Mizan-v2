@@ -1,6 +1,7 @@
 import { addProduct, initDialg } from "./render/render-products.js";
 import { renderProductsPage, LoadProducts } from "./render/render.js";
 import { state } from "./state.js";
+import { getFilters, setFilters, isProductFavorite, changeProductFavoriteStatus } from "./storage.js";
 
 
 const add_product_dialog = document.getElementById('add-product-dialog')
@@ -54,17 +55,31 @@ function handleProductsListeEvents(event)
     if (!button) {
         return
     }
+    const selected_product_id = button.closest('article').getAttribute('data-product-id')        
     if (button.getAttribute('data-action') === 'edit-product') {
-        const selected_product_id = button.closest('article').getAttribute('data-product-id')        
         initDialg(selected_product_id)
         product_form.setAttribute('data-action', 'update-product')
         add_product_dialog.showModal()
+    }
+    else if (button.getAttribute('data-action') == 'favorite-product') {
+        const icon = button.querySelector('i')
+        if (changeProductFavoriteStatus(selected_product_id).action == 'add') {
+            icon.classList.add('fa-solid')
+            icon.classList.remove('fa-regular')
+            button.classList.add('text-yellow-500')
+        }
+        else
+        {
+            icon.classList.remove('fa-solid')
+            icon.classList.add('fa-regular')
+            button.classList.remove('text-yellow-500')
+        }
+        
     }
 }
 
 products_liste.addEventListener('click', handleProductsListeEvents)
 //filters
-import { getFilters, setFilters } from "./storage.js";
 const search_by_title = document.getElementById('search-by-title')
 const filter_by_status = document.getElementById('filter-by-status')
 const filter_by_category = document.getElementById('filter-by-category')

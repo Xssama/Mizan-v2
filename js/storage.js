@@ -137,3 +137,46 @@ export function updateFiltersInState(filters_obj)
 
 
 }
+
+//favorites
+
+const favorites_Key = 'mizan_favorites'
+
+export function getFavoritesProductsData()
+{
+    const data = JSON.parse(localStorage.getItem(favorites_Key)) || []
+    state.favoriteProducts_IDs = data
+
+    return data
+}
+
+export function setFavoritesProductsData()
+{
+    localStorage.setItem(favorites_Key, JSON.stringify(state.favoriteProducts_IDs))
+}
+export function isProductFavorite(productID)
+{
+    const isProductIdExists = state.favoriteProducts_IDs.some((id) =>
+        id == productID
+    )
+    return isProductIdExists
+}
+//the function add productID to favorites if it doesn't exists, and remove it if already exists
+export function changeProductFavoriteStatus(productID)
+{
+    const WhatHappend = {
+        action: 'add'
+    }
+    if (!isProductFavorite(productID)) {
+        state.favoriteProducts_IDs.push(productID)
+    }
+    else
+    {
+        state.favoriteProducts_IDs = state.favoriteProducts_IDs.filter((id) =>
+            id != productID
+        )
+        WhatHappend.action ='remove'
+    }
+    setFavoritesProductsData()
+    return WhatHappend
+}

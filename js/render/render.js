@@ -1,5 +1,5 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "../services/metals-service.js";
-import {getFilters, LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
+import {getFilters,getFavoritesProductsData, LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
 import { renderLineChart, CalculateChartCoordinates } from "../charts.js";
 import { loadCard, renderLastUpdatelabel } from "./render-metals.js";
 
@@ -120,6 +120,7 @@ export async function renderProductsPage()
     loading_state.classList.remove('hidden')
     try {
         const products = await getProducts()
+        getFavoritesProductsData()
         if (products.length == 0) {
             loading_state.classList.add('hidden')
             catalogue_empty.classList.remove('hidden')
