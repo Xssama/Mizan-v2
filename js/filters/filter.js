@@ -24,3 +24,11 @@ export function filterByCategory(products, category)
     )
     return filtredProducts
 }
+import {isProductFavorite} from "../storage.js"
+export function filterFavorites(products)
+{
+    const filtredProducts = products.filter((product) => 
+        isProductFavorite(product.id)
+    )
+    return filtredProducts
+}

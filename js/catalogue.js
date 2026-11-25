@@ -83,6 +83,7 @@ products_liste.addEventListener('click', handleProductsListeEvents)
 const search_by_title = document.getElementById('search-by-title')
 const filter_by_status = document.getElementById('filter-by-status')
 const filter_by_category = document.getElementById('filter-by-category')
+const filter_favorite = document.getElementById('filter-favorite')
 const sort_products = document.getElementById('sort-products')
 const empty_search = document.getElementById('empty-search')
 const reset_filters_btn = document.querySelectorAll('.reset-filtres')
@@ -90,12 +91,12 @@ const reset_filters_btn = document.querySelectorAll('.reset-filtres')
 function loadFilters()
 {
     getFilters()
-
+    
     search_by_title.value = state.filters.searchInput
     filter_by_status.value = state.filters.filterByStatus_value
     filter_by_category.value = state.filters.filterByCategory_value
     sort_products.value = state.filters.sortBy
-
+    filter_favorite.checked = state.filters.filterByFavorites
 }
 loadFilters()
 reset_filters_btn.forEach(function(btn){
@@ -166,4 +167,16 @@ sort_products.addEventListener('change', function(){
         empty_search.classList.add('hidden')
     }
 })
-
+filter_favorite.addEventListener('change', function(){
+    state.filters.filterByFavorites = filter_favorite.checked
+    console.log(state.filters.filterByFavorites);
+    
+    setFilters() 
+    if (!LoadProducts()) {
+        empty_search.classList.remove('hidden')
+    }
+    else
+    {
+        empty_search.classList.add('hidden')
+    }
+})

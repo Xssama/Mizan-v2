@@ -1,4 +1,4 @@
-import { filterByTitle, filterByCategory, filterByStatus } from "../filters/filter.js";
+import { filterByTitle, filterByCategory, filterByStatus, filterFavorites } from "../filters/filter.js";
 import { sortByTitle, sortByDate, sortByPrice } from "../filters/sort.js";
 
 
@@ -41,8 +41,11 @@ export function applyFilters(products_arr, filters)
     if (filters.filterByCategory_value != 'none') {
         FiltredProducts = filterByCategory(FiltredProducts,filters.filterByCategory_value)        
     }
+    if (filters.filterByFavorites) {
+        FiltredProducts = filterFavorites(FiltredProducts)
+    }    
     if (filters.sortBy != 'none') {
         FiltredProducts = sortBySelectedValue(FiltredProducts ,filters.sortBy)
-    }    
+    }
     return FiltredProducts
 }

@@ -120,7 +120,8 @@ export function getFilters()
         searchInput: '',
         sortBy: 'none',
         filterByStatus_value: 'none',
-        filterByCategory_value: 'none', 
+        filterByCategory_value: 'none',
+        filterByFavorites: false, 
     }
     updateFiltersInState(filters_obj)
 }
@@ -134,7 +135,7 @@ export function updateFiltersInState(filters_obj)
     state.filters.filterByStatus_value = filters_obj.filterByStatus_value
     state.filters.filterByCategory_value = filters_obj.filterByCategory_value
     state.filters.sortBy = filters_obj.sortBy
-
+    state.filters.filterByFavorites = filters_obj.filterByFavorites
 
 }
 
