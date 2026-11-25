@@ -1,7 +1,8 @@
 import {isTitleValid, isDescriptionValid, isPriceValid} from '../validations.js'
-import { addProductToStorage, updateProductInStorage } from '../services/catalogue-service.js'
-import { updateProductInState, addProductToState, getProductByIdFromState,isProductFavorite } from '../storage.js'
+import { addProductToStorage, deleteProductFromStorage, updateProductInStorage } from '../services/catalogue-service.js'
+import { updateProductInState, addProductToState, getProductByIdFromState,isProductFavorite, changeProductFavoriteStatus, deleteProductfromState } from '../storage.js'
 import { state } from '../state.js'
+import { showConfirmationDialog } from "../confirmation.js";
 
 const product_template = document.getElementById('product-template')
 
@@ -197,7 +198,26 @@ export async function addProduct(update=false)
 export async function updateProduct() {
     
 }
-
+export async function deleteProduct(productID) {
+    const confirm = await showConfirmationDialog({title: 'confirmation de suppression',
+        message: 'Voulez-vous vraiment supprimer ce produit ?',
+        cancelText: 'Annuler',
+        confirmText: 'Supprimer',
+        })
+        if (!confirm) {
+            return;
+        }
+        try {
+            await deleteProductFromStorage(productID)
+            deleteProductfromState(productID)
+            if (isProductFavorite(productID)) {
+                changeProductFavoriteStatus(productID)
+            }
+        } catch (error) {
+            console.log(error);
+            
+        }
+}
 product_title.addEventListener('focusout', validateTitle)
 product_description.addEventListener('focusout', validateDescription)
 product_price.addEventListener('focusout', validatePrice)

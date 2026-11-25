@@ -100,6 +100,13 @@ export function addProductToState(obj)
 {   
     state.products.push(obj)
 }
+export function deleteProductfromState(productID)
+{
+    state.products = state.products.filter((product) => 
+        product.id != productID
+    )
+
+}
 export function updateProductInState(product_obj, product_id)
 {
     state.products.forEach(function(product){

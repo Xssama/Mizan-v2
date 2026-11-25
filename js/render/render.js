@@ -1,5 +1,5 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "../services/metals-service.js";
-import {getFilters,getFavoritesProductsData, LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
+import {getFavoritesProductsData, LoadData, LoadProductsToState, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "../storage.js";
 import { renderLineChart, CalculateChartCoordinates } from "../charts.js";
 import { loadCard, renderLastUpdatelabel } from "./render-metals.js";
 
@@ -105,10 +105,11 @@ function hideAllMessages()
     empty_search.classList.add('hidden')
     catalogue_empty.classList.add('hidden')
     other_errors.classList.add('hidden')
-
+    
 } 
 export function LoadProducts(products = state.products, filters = state.filters)
 {   
+    hideAllMessages()
     const FiltredProducts = applyFilters(products, filters)
     LoadProductsCards(FiltredProducts)
     
@@ -116,7 +117,6 @@ export function LoadProducts(products = state.products, filters = state.filters)
 }
 export async function renderProductsPage()
 {
-    hideAllMessages()
     loading_state.classList.remove('hidden')
     try {
         const products = await getProducts()

@@ -264,5 +264,18 @@
 
         </form>
     </dialog>
+    <dialog id="confirmation-dialog"
+    class="w-[calc(100%-2rem)] max-w-sm m-auto rounded-xl p-6 shadow-xl backdrop:bg-black/50">
+    <form method="dialog">
+        <div>
+            <h2 class="dialog-title text-lg font-semibold text-gray-800"></h2>
+            <p class="dialog-message mt-2 text-sm text-gray-600"></p>
+        </div>
+        <div class="flex justify-end gap-3">
+            <button value="cancel" class="cancel-btn rounded-lg border border-gray-300 px-4 py-2 text-sm"></button>
+            <button value="confirm" class="confirmation-btn rounded-lg bg-black/60 px-4 py-2 text-sm font-semibold text-black"></button>
+        </div>
+    </form>
+</dialog>
     </body>
     </html>
