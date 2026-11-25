@@ -10,7 +10,7 @@ export function sortByDate(products, order='asc')
 export function sortByTitle(products, order='asc')
 {
     const sortedproducts = products.sort((productA, productB) => 
-    (order === 'asc') ? 
+    (order !== 'asc') ? 
     productA.title.localeCompare(productB.title) 
     : productB.title.localeCompare(productA.title)
     )
